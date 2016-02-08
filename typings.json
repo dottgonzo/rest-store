@@ -1,0 +1,19 @@
+{
+  "dependencies": {},
+  "devDependencies": {},
+  "ambientDevDependencies": {
+    "chai": "github:DefinitelyTyped/DefinitelyTyped/chai/chai.d.ts#9c25433c84251bfe72bf0030a95edbbb2c81c9d5",
+    "gulp": "github:DefinitelyTyped/DefinitelyTyped/gulp/gulp.d.ts#052725d74978d6b8d7c4ff537b5a3b21ee755a49",
+    "gulp-concat": "github:DefinitelyTyped/DefinitelyTyped/gulp-concat/gulp-concat.d.ts#750b43c5b25887b6dc14ed3be1ccca5aa74d60b5",
+    "gulp-filter": "github:DefinitelyTyped/DefinitelyTyped/gulp-filter/gulp-filter.d.ts#1735153b55c4616192219e7edaecdef3971bd5b3",
+    "gulp-mocha": "github:DefinitelyTyped/DefinitelyTyped/gulp-mocha/gulp-mocha.d.ts#37b6a533837766f0c765e4181dfc11e06dfbd752",
+    "minimatch": "github:DefinitelyTyped/DefinitelyTyped/minimatch/minimatch.d.ts#a3900b896f7b3361b79f9b503224777619907d53",
+    "mocha": "github:DefinitelyTyped/DefinitelyTyped/mocha/mocha.d.ts#d6dd320291705694ba8e1a79497a908e9f5e6617",
+    "orchestrator": "github:DefinitelyTyped/DefinitelyTyped/orchestrator/orchestrator.d.ts#422b006d39dd37fc667ce5464967ee3ff6135092",
+    "vinyl": "github:DefinitelyTyped/DefinitelyTyped/vinyl/vinyl.d.ts#70a1f40bc8ef810b4272d37553cf86c6785be7f8"
+  },
+  "ambientDependencies": {
+    "bluebird": "github:DefinitelyTyped/DefinitelyTyped/bluebird/bluebird.d.ts#290a1d7ee6c04ccf64c6fcfdf39d935baa91d55b",
+    "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#aee0039a2d6686ec78352125010ebb38a7a7d743"
+  }
+}
