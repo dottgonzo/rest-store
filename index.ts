@@ -98,34 +98,6 @@ interface IConstructor {
     sync?: boolean;
 }
 
-function insert(Storedb, obj) {
-    return new Promise<boolean>(function(resolve, reject) {
-
-
-        Storedb.get({
-
-        }).then(function() {
-            Storedb.put({}).then(function() {
-                resolve(true);
-            }).catch(function(err) {
-                reject(err);
-            });
-        }).catch(function(err) {
-            if (err.status === 404) {
-                Storedb.post({}).then(function() {
-                    resolve(true);
-                }).catch(function(err) {
-                    reject(err);
-                });
-            } else {
-                reject(err);
-            }
-
-        });
-
-    });
-}
-
 
 interface IStorepouch {
     storeurl: string;
@@ -161,6 +133,50 @@ interface IStoreApi {
     new: INewObj;
 
 }
+
+interface IWhere {
+    from?: number;
+    to?: number;
+    uid?: string;
+    serial?: string;
+}
+
+
+function TimeNow() {
+    return new Date().getTime();
+}
+
+
+function insert(Storedb, obj) {
+    return new Promise<boolean>(function(resolve, reject) {
+
+
+        Storedb.get({
+
+        }).then(function() {
+            Storedb.put({}).then(function() {
+                resolve(true);
+            }).catch(function(err) {
+                reject(err);
+            });
+        }).catch(function(err) {
+            if (err.status === 404) {
+                Storedb.post({}).then(function() {
+                    resolve(true);
+                }).catch(function(err) {
+                    reject(err);
+                });
+            } else {
+                reject(err);
+            }
+
+        });
+
+    });
+}
+
+
+
 export = class Save {
 
 
@@ -205,11 +221,11 @@ export = class Save {
 
             }
         }
-
-
-
     }
 
+    new(uid: string) {
+        return this.storeobj.new(uid);
+    }
 
     saveStatus(url?: string) {
 
@@ -262,31 +278,46 @@ export = class Save {
     }
 
     save(obj: any, uid: string) {
-       return insert(this.localDB,this.storeobj.data(obj, uid));
+        return insert(this.localDB, this.storeobj.data(obj, uid));
     }
 
     replicate(remote?: any) {
 
     }
 
-    update() {
+    update(object: any, uid: string) {
+        let Storedb: any = this.localDB;
+        let obj = this.storeobj.data(object, uid);
+        return new Promise<boolean>(function(resolve, reject) {
+
+            Storedb.get(obj._id).then(function() {
+                Storedb.put({}).then(function() {
+                    resolve(true);
+                }).catch(function(err) {
+                    reject(err);
+                });
+            }).catch(function(err) {
+                reject(err);
+            });
+        });
+    }
+
+    get(_id) {
+        let Storedb: any = this.localDB;
+        return Storedb.get(_id);
+    }
+
+    where(where: IWhere) {
+
+        if (where.from && !where.to) {
+            where.to = TimeNow();
+        }
+
+
+
 
     }
 
-    get() {
 
-    }
-
-    find() {
-
-    }
-
-    where() {
-
-    }
-
-    new() {
-
-    }
 
 }
