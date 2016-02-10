@@ -36,6 +36,7 @@
     "bluebird": "^3.2.2",
     "mach-storeobj": "^1.0.9",
     "pouchdb": "^5.2.1",
+    "pouchdb-upsert": "^2.0.0",
     "timerdaemon": "0.0.4"
   }
 }

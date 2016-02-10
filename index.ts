@@ -146,22 +146,26 @@ function TimeNow() {
     return new Date().getTime();
 }
 
+interface IClient {
+    uid: string;
+    type?: string;
+}
 
 function insert(Storedb, obj) {
     return new Promise<boolean>(function(resolve, reject) {
-
-
-        Storedb.get({
-
-        }).then(function() {
-            Storedb.put({}).then(function() {
+        if (obj._rev) {
+            delete obj._rev
+        }
+        Storedb.get(obj._id).then(function(ob) {
+            obj._rev = ob._rev
+            Storedb.put(obj).then(function() {
                 resolve(true);
             }).catch(function(err) {
                 reject(err);
             });
         }).catch(function(err) {
             if (err.status === 404) {
-                Storedb.post({}).then(function() {
+                Storedb.post(obj).then(function() {
                     resolve(true);
                 }).catch(function(err) {
                     reject(err);
@@ -175,16 +179,35 @@ function insert(Storedb, obj) {
     });
 }
 
+function remove(Storedb, _id) {
+    return new Promise<boolean>(function(resolve, reject) {
 
+        Storedb.get(_id).then(function(ob) {
+            Storedb.remove(ob).then(function() {
+                resolve(true);
+            }).catch(function(err) {
+                reject(err);
+            });
+        }).catch(function(err) {
+            if (err.status === 404) {
+                resolve(true);
+            } else {
+                reject(err);
+            }
 
-export = class Save {
+        });
+
+    });
+}
+
+export = class Store {
 
 
     localDB: Function;
     remoteDB: Function;
     sync: Function;
     storeobj: IStoreApi;
-
+    clients: IClient[];
 
     constructor(conf: IStorepouch) {
 
@@ -242,7 +265,7 @@ export = class Save {
 
     }
 
-    heartbeat(url?: string, time?: number) {
+    heartbeat(url: string, time?: number) {
         let Storedb: any;
         let t: number;
         if (!url || url === "local") {
@@ -280,7 +303,9 @@ export = class Save {
     save(obj: any, uid: string) {
         return insert(this.localDB, this.storeobj.data(obj, uid));
     }
-
+    remove(uid: string) {
+        return remove(this.localDB, uid);
+    }
     replicate(remote?: any) {
 
     }
@@ -313,6 +338,54 @@ export = class Save {
             where.to = TimeNow();
         }
 
+    }
+
+    addclient(Client: IClient) {
+        let exist = false;
+        for (let i = 0; i < this.clients.length; i++) {
+
+            if (this.clients[i].uid === Client.uid) {
+                exist = true;
+            }
+        }
+
+        if (exist) {
+            return new Promise<boolean>(function(resolve, reject) {
+
+                resolve(true);
+            });
+        } else {
+
+            return insert("ss", "dd");
+
+        }
+
+
+    }
+
+
+
+
+    remclient(uid: string) {
+
+        let exist = false;
+        for (let i = 0; i < this.clients.length; i++) {
+
+            if (this.clients[i].uid === uid) {
+                exist = true
+            }
+        }
+
+        if (exist) {
+            return new Promise<boolean>(function(resolve, reject) {
+
+                resolve(true);
+            });
+        } else {
+
+            return insert("ss", "dd");
+
+        }
 
 
 
